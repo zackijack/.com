@@ -10,8 +10,12 @@ jobs:
           name: Install AWS CLI
           command: sudo pip install awscli
       - run:
-          name: Deploy to S3
-          command: aws s3 sync --acl public-read --cache-control max-age=86400 --delete ~/code s3://$AWS_S3_BUCKET_NAME
+          name: Deploy to AWS S3
+          command: aws s3 sync --acl public-read --cache-control max-age=86400 --delete build/ s3://$AWS_S3_BUCKET_NAME
+      - run:
+          name: Create invalidation in AWS CloudFront
+          command: aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION_ID --paths '/*'
+
 
 workflows:
   version: 2
