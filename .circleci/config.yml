@@ -27,6 +27,7 @@ jobs:
       - image: circleci/python:3
     working_directory: ~/code
     steps:
+      - checkout
       - run:
           name: Install AWS CLI
           command: sudo pip install awscli
