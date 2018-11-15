@@ -17,6 +17,7 @@ jobs:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
+            - ~/code/node_modules
             - ~/.cache/yarn
       - run:
           name: Build
