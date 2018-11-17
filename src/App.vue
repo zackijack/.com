@@ -2,20 +2,37 @@
   <div class="flex-center position-ref full-height">
     <div class="content">
       <Title text="zackijack"/>
-      <Link/>
+      <Links :links="links"/>
     </div>
   </div>
 </template>
 
 <script>
 import Title from './components/Title.vue'
-import Link from './components/Link.vue'
+import Links from './components/Links.vue'
 
 export default {
   name: 'app',
   components: {
     Title,
-    Link
+    Links,
+  },
+  data:() => {
+    return {
+      links:[{
+        href: "https://github.com/zackijack",
+        value: "GitHub",
+      }, {
+        href: "https://www.linkedin.com/in/zackijack",
+        value: "LinkedIn"
+      }, {
+        href: "https://twitter.com/zackijack",
+        value: "Twitter"
+      }, {
+        href: "https://www.facebook.com/zackijackx",
+        value: "Facebook"
+      }]
+    }
   }
 }
 </script>
