@@ -17,23 +17,21 @@ export default {
     Title,
     Links,
   },
-  data:() => {
-    return {
-      links:[{
-        href: "https://github.com/zackijack",
-        value: "GitHub",
-      }, {
-        href: "https://www.linkedin.com/in/zackijack",
-        value: "LinkedIn"
-      }, {
-        href: "https://twitter.com/zackijack",
-        value: "Twitter"
-      }, {
-        href: "https://www.facebook.com/zackijackx",
-        value: "Facebook"
-      }]
-    }
-  }
+  data: () => ({
+    links:[{
+      href: "https://github.com/zackijack",
+      value: "GitHub",
+    }, {
+      href: "https://www.linkedin.com/in/zackijack",
+      value: "LinkedIn"
+    }, {
+      href: "https://twitter.com/zackijack",
+      value: "Twitter"
+    }, {
+      href: "https://www.facebook.com/zackijackx",
+      value: "Facebook"
+    }]
+  })
 }
 </script>
 
