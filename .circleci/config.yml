@@ -7,14 +7,19 @@ references:
   working_directory: &working_directory
     ~/workspace/code
 
-  node_container: &node_container
-    docker:
-      - image: circleci/node:10.13.0-stretch
-    working_directory: *working_directory
+  persist_to_workspace: &persist_to_workspace
+    root: *workspace_root
+    paths:
+      - code
 
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
+
+  node_container: &node_container
+    docker:
+      - image: circleci/node:10.13.0-stretch
+    working_directory: *working_directory
 
 jobs:
   install:
@@ -58,6 +63,7 @@ jobs:
       - run:
           name: Build
           command: yarn build
+      - *persist_to_workspace
 
   deploy:
     docker:
