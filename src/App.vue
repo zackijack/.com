@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Title from './components/Title.vue'
-import Links from './components/Links.vue'
+import Title from './components/Title.vue';
+import Links from './components/Links.vue';
 
 export default {
   name: 'app',
@@ -18,21 +18,21 @@ export default {
     Links,
   },
   data: () => ({
-    links:[{
-      href: "https://github.com/zackijack",
-      value: "GitHub",
+    links: [{
+      url: 'https://github.com/zackijack',
+      text: 'GitHub',
     }, {
-      href: "https://www.linkedin.com/in/zackijack",
-      value: "LinkedIn"
+      url: 'https://www.linkedin.com/in/zackijack',
+      text: 'LinkedIn',
     }, {
-      href: "https://twitter.com/zackijack",
-      value: "Twitter"
+      url: 'https://twitter.com/zackijack',
+      text: 'Twitter',
     }, {
-      href: "https://www.facebook.com/zackijackx",
-      value: "Facebook"
-    }]
-  })
-}
+      url: 'https://www.facebook.com/zackijackx',
+      text: 'Facebook',
+    }],
+  }),
+};
 </script>
 
 <style>

@@ -1,6 +1,8 @@
 <template>
   <div class="links">
-    <a v-for="(link, index) in links" :key=index :href="link.href" target="_blank" rel="noopener">{{ link.value }}</a>
+    <a v-for="(link, index) in links" :key=index :href="link.url" target="_blank" rel="noopener">
+      {{ link.text }}
+    </a>
   </div>
 </template>
 
@@ -8,10 +10,10 @@
 export default {
   name: 'Links',
   props: {
-    links: Array
+    links: Array,
   },
 
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
