@@ -7,18 +7,30 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          name: Restore Yarn Package Cache
+          name: Restore Yarn Cache
           keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ arc }}-{{ .Branch }}-
+            - yarn-v1-{{ arc }}-
+      - restore_cache:
+          name: Restore node_modules Cache
+          keys:
+            - node-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node-v1-{{ arc }}-{{ .Branch }}-
+            - node-v1-{{ arc }}-
       - run:
           name: Install Dependencies
           command: yarn install
       - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
+          name: Save Yarn Cache
+          key: yarn-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - save_cache:
+          name: Save node_modules Cache
+          key: node-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-            - ~/.cache/yarn
       - run:
           name: Build
           command: yarn build
