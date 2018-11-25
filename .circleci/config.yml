@@ -9,26 +9,26 @@ jobs:
       - restore_cache:
           name: Restore Yarn Cache
           keys:
-            - yarn-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-v1-{{ arc }}-{{ .Branch }}-
-            - yarn-v1-{{ arc }}-
+            - yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ arch }}-{{ .Branch }}-
+            - yarn-v1-{{ arch }}-
       - restore_cache:
           name: Restore node_modules Cache
           keys:
-            - node-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - node-v1-{{ arc }}-{{ .Branch }}-
-            - node-v1-{{ arc }}-
+            - node-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node-v1-{{ arch }}-{{ .Branch }}-
+            - node-v1-{{ arch }}-
       - run:
           name: Install Dependencies
           command: yarn install
       - save_cache:
           name: Save Yarn Cache
-          key: yarn-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
       - save_cache:
           name: Save node_modules Cache
-          key: node-v1-{{ arc }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: node-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
       - run:
