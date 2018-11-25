@@ -1,51 +1,70 @@
 version: 2
-jobs:
-  build:
+
+references:
+  workspace_root: &workspace_root
+    ~/workspace
+
+  working_directory: &working_directory
+    ~/workspace/code
+
+  node_container: &node_container
     docker:
       - image: circleci/node:10.13.0-stretch
-    working_directory: ~/code
+    working_directory: *working_directory
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+jobs:
+  install:
+    <<: *node_container
     steps:
       - checkout
       - restore_cache:
           name: Restore Yarn Cache
           keys:
-            - yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-v1-{{ arch }}-{{ .Branch }}-
-            - yarn-v1-{{ arch }}-
+            - v1-yarn-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-yarn-{{ arch }}-{{ .Branch }}-
+            - v1-yarn-{{ arch }}-
       - restore_cache:
           name: Restore node_modules Cache
           keys:
-            - node-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - node-v1-{{ arch }}-{{ .Branch }}-
-            - node-v1-{{ arch }}-
+            - v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-node-{{ arch }}-{{ .Branch }}-
+            - v1-node-{{ arch }}-
       - run:
           name: Install Dependencies
           command: yarn install
       - save_cache:
           name: Save Yarn Cache
-          key: yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v1-yarn-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
       - save_cache:
           name: Save node_modules Cache
-          key: node-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - code
+
+  build:
+    <<: *node_container
+    steps:
+      - *attach_workspace
       - run:
           name: Build
           command: yarn build
-      - persist_to_workspace:
-          root: .
-          paths: 
-            - dist/**
 
   deploy:
     docker:
       - image: circleci/python:3.7.1-stretch
-    working_directory: ~/code
+    working_directory: *working_directory
     steps:
-      - attach_workspace:
-          at: .
+      - *attach_workspace
       - run:
           name: Install AWS CLI
           command: sudo pip install awscli
@@ -58,9 +77,12 @@ jobs:
 
 workflows:
   version: 2
-  build-deploy:
+  install-build-deploy:
     jobs:
-      - build
+      - install
+      - build:
+          requires:
+            - install
       - deploy:
           requires:
             - build
