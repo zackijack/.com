@@ -54,7 +54,7 @@ jobs:
           paths:
             - code
 
-  unit-test:
+  test-unit:
     <<: *node_container
     steps:
       - *attach_workspace
@@ -83,12 +83,12 @@ workflows:
   build-test-deploy:
     jobs:
       - build
-      - test:
+      - test-unit:
           requires:
             - build
       - deploy:
           requires:
-            - test
+            - test-unit
           filters:
             branches:
               only: master
