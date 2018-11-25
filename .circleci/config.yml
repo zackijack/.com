@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/python:3-7-1-stretch
+      - image: circleci/python:3.7.1-stretch
     working_directory: ~/code
     steps:
       - attach_workspace:
