@@ -8,9 +8,10 @@ references:
     ~/workspace/code
 
   persist_to_workspace: &persist_to_workspace
-    root: *workspace_root
-    paths:
-      - code
+    persist_to_workspace:
+      root: *workspace_root
+      paths:
+        - code
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -51,10 +52,7 @@ jobs:
           key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-      - persist_to_workspace:
-          root: *workspace_root
-          paths:
-            - code
+      - *persist_to_workspace
 
   build:
     <<: *node_container
