@@ -7,12 +7,6 @@ references:
   working_directory: &working_directory
     ~/workspace/code
 
-  persist_to_workspace: &persist_to_workspace
-    persist_to_workspace:
-      root: *workspace_root
-      paths:
-        - code
-
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
@@ -23,7 +17,7 @@ references:
     working_directory: *working_directory
 
 jobs:
-  install:
+  build:
     <<: *node_container
     steps:
       - checkout
@@ -52,16 +46,21 @@ jobs:
           key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-      - *persist_to_workspace
+      - run:
+          name: Build
+          command: yarn build
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - code
 
-  build:
+  unit-test:
     <<: *node_container
     steps:
       - *attach_workspace
       - run:
-          name: Build
-          command: yarn build
-      - *persist_to_workspace
+          name: Unit Test
+          command: yarn test:unit
 
   deploy:
     docker:
@@ -81,15 +80,15 @@ jobs:
 
 workflows:
   version: 2
-  install-build-deploy:
+  build-test-deploy:
     jobs:
-      - install
-      - build:
-          requires:
-            - install
-      - deploy:
+      - build
+      - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
           filters:
             branches:
               only: master
