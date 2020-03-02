@@ -24,12 +24,6 @@ export default {
     }, {
       url: 'https://www.linkedin.com/in/zackijack',
       text: 'LinkedIn',
-    }, {
-      url: 'https://twitter.com/zackijack',
-      text: 'Twitter',
-    }, {
-      url: 'https://www.facebook.com/zackijackx',
-      text: 'Facebook',
     }],
   }),
 };
