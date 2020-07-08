@@ -19,6 +19,9 @@ export default {
   },
   data: () => ({
     links: [{
+      url: 'https://notes.zackijack.com',
+      text: 'Notes',
+    }, {
       url: 'https://github.com/zackijack',
       text: 'GitHub',
     }, {
